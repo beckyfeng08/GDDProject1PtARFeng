@@ -17,6 +17,10 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Approximate amount of damage dealt per frame")]
     private float m_Damage;
 
+    [SerializeField]
+    [Tooltip("player transform")]
+    private Transform player;
+
     //to create a new object in code
     [SerializeField]
     [Tooltip("The explosion that occurs when this enemy dies")]
@@ -37,6 +41,8 @@ public class EnemyController : MonoBehaviour
 
     #region Private Variables
     private float p_curHealth;
+    //The current move direction of the player.Does NOT include magnitude
+    private Vector2 p_Velocity;
     #endregion
 
     #region Cached Components
@@ -75,8 +81,10 @@ public class EnemyController : MonoBehaviour
         Vector3 dir = cr_Player.position - transform.position;
         //so we can apply the speed to moveposition
         dir.Normalize();
-
         cc_Rb.MovePosition(cc_Rb.position + dir * m_Speed * Time.fixedDeltaTime);
+        //update rotation of enemy (this doesn't work)
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(player.position), 5 * Time.deltaTime);
+
     }
     #endregion
 
@@ -99,7 +107,7 @@ public class EnemyController : MonoBehaviour
             ScoreManager.singleton.IncreaseScore(m_Score);
             if (Random.value < m_HealthPillDropRate)
             {
-                Instantiate(m_HealthPill, transform.position, Quaternion.identity);
+                Instantiate(m_HealthPill, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
             }
             Instantiate(m_DeathExplosion, transform.position, Quaternion.identity);
             Destroy(gameObject);

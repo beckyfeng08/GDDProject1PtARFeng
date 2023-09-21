@@ -4881,6 +4881,7 @@ MonoBehaviour:
   m_MaxHealth: 1
   m_Speed: 1
   m_Damage: 0.1
+  player: {fileID: 6966339230060499347, guid: 9ffe694845bc34e748d2818c24f432eb, type: 3}
   m_DeathExplosion: {fileID: 1751476858793735223, guid: 5f7cbf55f3468d34f8f469877a079fbb,
     type: 3}
   m_HealthPillDropRate: 0.5
